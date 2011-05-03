@@ -1,5 +1,6 @@
 Calendar = (function(scope) {
-  var MAX_WIDTH = 600;
+  var MAX_WIDTH = 600,
+      MARGIN_LEFT = 10;
   
   /**
   Lays out events for a single  day
@@ -28,10 +29,10 @@ Calendar = (function(scope) {
       // Find if an existing column can have enough space to display current event
       while (event.column < columns.length) {
         // If the event cannot be added to current column, try next column
-        if (hasOverlap(columns[event.column], event)) {
+        if (_hasOverlap(columns[event.column], event)) {
           event.column ++;
         }
-        // Else, just break the current loop
+        // Else, just break the current loop to add event to current column
         else {
           break;
         } 
@@ -46,13 +47,18 @@ Calendar = (function(scope) {
     return _postProcess(columns);
   }
   
+  function _hasOverlap(event, column) {
+    return false;
+  }
+  
   function _computeEventPosition(event, columns) {
-    // Compute top/left position
-    event.left = event.column * MAX_WIDTH / columns.length;
-    event.top = event.start
+    // Compute position
+    event.left = MARGIN_LEFT + event.column * MAX_WIDTH / columns.length;
+    event.top = event.start;
     
-    // Compute width
+    // Compute size
     event.width = MAX_WIDTH / columns.length;
+    event.height = event.end - event.start;
     
     // Remove temporary variable
     delete event.column;

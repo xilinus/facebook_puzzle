@@ -9,7 +9,7 @@ $(document).ready(function() {
     var event = events[0]
     equals(event.top, 100);
     equals(event.left, 0);
-    equals(event.width, );
+    equals(event.width, 600);
     
   });
 });

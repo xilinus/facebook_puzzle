@@ -1,0 +1,39 @@
+#container {
+  margin: 0 auto;
+  width: 730px;
+}
+#canvas {
+  float: left;
+  width: 600px;
+  height: 720px;
+  padding: 0 10px;
+  margin-top: 15px;
+  background: #ECECEC;
+  position: relative;
+}
+#canvas .event {
+  position:absolute;
+  background: #FFF;
+}
+/* #4b6ea9 */
+#ruler {
+  float: left;
+  width: 100px;
+  margin-right: 10px;
+}
+#ruler .hour, #ruler .half-hour {
+  height: 30px;
+  line-height: 30px;
+  text-align: right;
+}
+#ruler .hour {
+  color: #737373;
+  font-size: 12px;
+  font-weight: bold;
+}
+#ruler .half-hour, #ruler .hour em {
+  color: #B3B3B3;
+  font-size: 11px;
+  font-style: normal;
+}
+
