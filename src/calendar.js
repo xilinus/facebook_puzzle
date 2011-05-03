@@ -18,7 +18,7 @@
     // Columns is an array of event's array.
     var columns = [[]];
     for (var i = events.length - 1; i--; i >= 0) {
-      
+      var event = Event.fromParams(events[i]);
     }
   }
   
