@@ -1,18 +1,26 @@
-/**
-Lays out events for a single  day
+(function(scope) {
  
-@param array  events  
- An array of event objects. Each event object consists of a start time, end
- Time (measured in minutes) from 9am, as well as a unique id. The
- Start and end time of each event will be [0, 720]. The start time will
- Be less than the end time.  The array is not sorted.
+  /**
+  Lays out events for a single  day
  
- @return array
- An array of event objects that has the width, the left and top positions set,
- In addition to start time, end time, and id. 
-**/
+  @param array  events  
+   An array of event objects. Each event object consists of a start time, end
+   Time (measured in minutes) from 9am, as well as a unique id. The
+   Start and end time of each event will be [0, 720]. The start time will
+   Be less than the end time.  The array is not sorted.
  
-function layOutDay(events) {
+   @return array
+   An array of event objects that has the width, the left and top positions set,
+   In addition to start time, end time, and id. 
+  **/
  
-}
- 
+  function layOutDay(events) {
+    // Columns is an array of event's array.
+    var columns = [[]];
+    for (var i = events.length - 1; i--; i >= 0) {
+      
+    }
+  }
+  
+  scope.layOutDay = layOutDay;
+})(window)
