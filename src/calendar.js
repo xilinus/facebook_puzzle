@@ -1,6 +1,5 @@
-Calendar = (function(scope) {
-  var MAX_WIDTH = 600,
-      MARGIN_LEFT = 10;
+Calendar = (function(context) {
+  var MAX_WIDTH = 600;
   
   /**
   Lays out events for a single  day
@@ -16,67 +15,46 @@ Calendar = (function(scope) {
    In addition to start time, end time, and id. 
   **/
  
-  function layOutDay(events) {
-    // Columns is an array of event's array.
-    var columns = [];
-    for (var i = events.length - 1; i >= 0; i--) {
+  function layOutDay(eventParams) {
+    // Processed events list
+    var results = [];
+    _.each(eventParams, function(params) {
       // Create an Event object from params
-      var event = Event.fromParams(events[i]);
-
-      // Set column to first column
-      event.column = 0;
+      var event = Event.fromParams(params);
       
-      // Find if an existing column can have enough space to display current event
-      while (event.column < columns.length) {
-        // If the event cannot be added to current column, try next column
-        if (_hasOverlap(columns[event.column], event)) {
-          event.column ++;
+      // Get overlaping events from already processed events
+      var overlapEvents = _.inject(results, function(array, item) {
+        if (item.isOverlap(event)) {
+          array.push(item);
         }
-        // Else, just break the current loop to add event to current column
-        else {
-          break;
-        } 
-      }
-      // Create a new column if need be
-      if (event.column == columns.length) {
-        columns.push([]);
-      }
-      columns[event.column].push(event);
-    }
+        return array;
+      }, []);
+      
+      // Compute event position
+      overlapEvents.push(event)
+      _computeEventsPosition(overlapEvents);
+      
+      // Add current event to processed events list
+      results.push(event);
+    });
     
-    return _postProcess(columns);
+    return results;
   }
-  
-  function _hasOverlap(event, column) {
-    return false;
-  }
-  
-  function _computeEventPosition(event, columns) {
+    
+  function _computeEventsPosition(events) {
     // Compute position
-    event.left = MARGIN_LEFT + event.column * MAX_WIDTH / columns.length;
-    event.top = event.start;
     
     // Compute size
-    event.width = MAX_WIDTH / columns.length;
-    event.height = event.end - event.start;
-    
-    // Remove temporary variable
-    delete event.column;
-
-    return event;
+    var index = 0, size = MAX_WIDTH / events.length;
+    _.each(events, function(event) {
+      event.top = event.start;
+      event.left = index * size;
+      event.width = size;
+      event.height = event.end - event.start;
+      index++;
+    });
   }
   
-  function _postProcess(columns) {
-    var events = [];
-    for (var i = columns.length - 1; i >= 0; i--) {
-      var column = columns[i];
-      for (var j = column.length - 1;  j >= 0; j--) {
-        events.push(_computeEventPosition(column[j], columns))
-      }
-    }
-    return events;
-  }
-  if (scope) {
-    scope.layOutDay = layOutDay;
-  } 
-})(window);
+  /// Add layOutDay in global window context to fit requirements
+  (context || window).layOutDay = layOutDay;
+})();
