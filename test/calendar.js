@@ -10,6 +10,5 @@ $(document).ready(function() {
     equals(event.top, 100);
     equals(event.left, 0);
     equals(event.width, 600);
-    
   });
 });

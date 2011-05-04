@@ -31,8 +31,8 @@ Calendar = (function(context) {
       }, []);
       
       // Compute event position
+      _computeEventsPosition(event, overlapEvents);
       overlapEvents.push(event)
-      _computeEventsPosition(overlapEvents);
       
       // Add current event to processed events list
       results.push(event);
@@ -41,18 +41,47 @@ Calendar = (function(context) {
     return results;
   }
     
-  function _computeEventsPosition(events) {
-    // Compute position
+  function _computeEventsPosition(newEvent, events) {
+    // Check if there is an empty space
+    var hasEmptySlot = (events.length > 0 && events[0].width * events.length < MAX_WIDTH),    
+        width = MAX_WIDTH / (events.length + 1);
+  
+    // Set top/height to new event
+    newEvent.top = newEvent.start;
+    newEvent.height = newEvent.end - newEvent.start;
     
-    // Compute size
-    var index = 0, size = MAX_WIDTH / events.length;
-    _.each(events, function(event) {
-      event.top = event.start;
-      event.left = index * size;
-      event.width = size;
-      event.height = event.end - event.start;
-      index++;
-    });
+    
+    if (hasEmptySlot) {
+      var leftPositions = [];
+      for (var i = 0; i <= events.length; i++) {
+        leftPositions.push({left:i * width, free:true});
+      }
+      _.each(events, function(event) {
+        var item = _.detect(leftPositions, function(i) {return i.left == event.left});
+        if (item) {
+          item.free = false;
+        }
+      });
+      var pos = _.detect(leftPositions, function(i) {return i.free});
+      newEvent.left = pos.left;
+      newEvent.width = events[0].width;      
+    } else {
+      newEvent.width = width;
+      // Recompute width of existing events
+      _.each(events, function(event) {
+        event.width = width;
+      });
+
+      // Recompute existing events left position
+      var index = 0;
+      _.each(events, function(event) {
+        event.left = index * width;
+        index++;
+      });
+
+      // add new event 
+      newEvent.left = events.length * width;
+    }
   }
   
   /// Add layOutDay in global window context to fit requirements
