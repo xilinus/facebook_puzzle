@@ -14,8 +14,8 @@
 #canvas .event {
   position:absolute;
   background: #FFF;
+  color:#4b6ea9;
 }
-/* #4b6ea9 */
 #ruler {
   float: left;
   width: 100px;
