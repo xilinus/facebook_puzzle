@@ -16,72 +16,84 @@ Calendar = (function(context) {
   **/
  
   function layOutDay(eventParams) {
-    // Processed events list
-    var results = [];
-    _.each(eventParams, function(params) {
+    // First pass: processed events list, create Event object, set left to column position
+    var results = _.inject(eventParams, function(processedEvents, params) {
       // Create an Event object from params
       var event = Event.fromParams(params);
       
-      // Get overlaping events from already processed events
-      var overlapEvents = _.inject(results, function(array, item) {
-        if (item.isOverlap(event)) {
-          array.push(item);
-        }
-        return array;
-      }, []);
-      
       // Compute event position
-      _computeEventsPosition(event, overlapEvents);
-      overlapEvents.push(event)
+      _computeEventPosition(event, _getOverlapEvents(event, processedEvents));
       
       // Add current event to processed events list
-      results.push(event);
-    });
+      processedEvents.push(event);
+      return processedEvents;
+    }, []);
     
+    // Second pass: compute left and width
+    _computeLeftAndWidth(results);
     return results;
   }
-    
-  function _computeEventsPosition(newEvent, events) {
-    // Check if there is an empty space
-    var hasEmptySlot = (events.length > 0 && events[0].width * events.length < MAX_WIDTH),    
-        width = MAX_WIDTH / (events.length + 1);
   
+  function _getOverlapEvents(event, events, options) {
+    options = options || {};
+    
+    // Get overlaping events for a specific event
+    var overlapEvents = _.inject(events, function(array, item) {
+      if (item.isOverlap(event)) {
+        array.push(item);
+      }
+      return array;
+    }, []);
+    if (options.recusrive) {
+      options.processedEvents  = (options.processedEvents || []);
+      options.processedEvents.push(event);
+      
+      _.each(overlapEvents, function(e) {
+        if (!_.include(options.processedEvents, e)) {
+          overlapEvents = overlapEvents.concat(_getOverlapEvents(e, events, options));
+        }
+      });
+    }
+    return _.uniq(overlapEvents);
+  }
+    
+  function _computeColumnPosition(newEvent, events) {
+    var columns = [];
+    for (var i = 0; i <= events.length; i++) {
+      columns.push({left:i, free:true});
+    }
+    _.each(events, function(event) {
+      var item = _.detect(columns, function(i) {return i.left == event.left});
+      if (item) {
+        item.free = false;
+      }
+    });
+    var pos = _.detect(columns, function(i) {return i.free});
+    return pos ? pos.left : events.length;
+  }
+    
+  function _computeEventPosition(newEvent, events) {  
     // Set top/height to new event
     newEvent.top = newEvent.start;
     newEvent.height = newEvent.end - newEvent.start;
     
-    
-    if (hasEmptySlot) {
-      var leftPositions = [];
-      for (var i = 0; i <= events.length; i++) {
-        leftPositions.push({left:i * width, free:true});
+    var left = _computeColumnPosition(newEvent, events);
+    newEvent.left = left;
+    newEvent.width = null; // Will be computed in second pass
+  }
+  
+  function _computeLeftAndWidth(events) {
+    _.each(events, function(event) {
+      if (_.isNull(event.width)) {
+        var overlapEvents = _getOverlapEvents(event, events, {recusrive: true}),
+            nbColumns = _.max(overlapEvents, function(e) {return e.left}).left + 1,
+            width = MAX_WIDTH / nbColumns;
+        _.each(overlapEvents, function(e) {
+          e.left *= width;
+          e.width = width;
+        });
       }
-      _.each(events, function(event) {
-        var item = _.detect(leftPositions, function(i) {return i.left == event.left});
-        if (item) {
-          item.free = false;
-        }
-      });
-      var pos = _.detect(leftPositions, function(i) {return i.free});
-      newEvent.left = pos.left;
-      newEvent.width = events[0].width;      
-    } else {
-      newEvent.width = width;
-      // Recompute width of existing events
-      _.each(events, function(event) {
-        event.width = width;
-      });
-
-      // Recompute existing events left position
-      var index = 0;
-      _.each(events, function(event) {
-        event.left = index * width;
-        index++;
-      });
-
-      // add new event 
-      newEvent.left = events.length * width;
-    }
+    });
   }
   
   /// Add layOutDay in global window context to fit requirements

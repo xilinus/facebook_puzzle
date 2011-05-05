@@ -21,6 +21,7 @@ App = (function() {
   function displayEvents(events) {
     // Clear canvas
     canvas.innerHTML = '';
+    // Add each event to canvas
     _.each(layOutDay(events), function(event) {
       canvas.appendChild(createCalendarElement(event));
     });
@@ -44,7 +45,9 @@ var set3 = [ {id: "A", start: 60, end: 120},  // an event from 10:00am to 11:00a
              {id: "D", start: 135, end: 195}, // an event from 11:15am to 12:15pm
              {id: "E", start: 180, end: 270}, // an event from 12:00pm to 13:30pm
              {id: "F", start: 210, end: 300}, // an event from 12:30pm to 14:00pm
-             {id: "G", start: 480, end: 540}  // an event from 17:00pm to 18:00pm
+             {id: "G", start: 480, end: 540}, // an event from 17:00pm to 18:00pm
+             {id: "H", start: 225, end: 270}, // an event from 12:45pm to 13:30pm
+             {id: "I", start: 250, end: 400}  // an event from 13:10pm to 13:30pm
 
            ];
 App.displayEvents(set3);
