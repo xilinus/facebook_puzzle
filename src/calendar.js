@@ -13,8 +13,7 @@ Calendar = (function(context) {
    @return array
    An array of event objects that has the width, the left and top positions set,
    In addition to start time, end time, and id. 
-  **/
- 
+  **/ 
   function layOutDay(eventParams) {
     // First pass: processed events list, create Event object, set left to column position
     var results = _.inject(eventParams, function(processedEvents, params) {
@@ -44,6 +43,7 @@ Calendar = (function(context) {
       }
       return array;
     }, []);
+    // If recusrive option is true, process all 
     if (options.recusrive) {
       options.processedEvents  = (options.processedEvents || []);
       options.processedEvents.push(event);
