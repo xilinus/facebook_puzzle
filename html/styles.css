@@ -1,10 +1,12 @@
 body {
   font-family: arial;
   background:#DCEBFF;
+  text-align: center;
 }
 #container {
   margin: 0 auto;
   width: 730px;
+  text-align: left;
 }
 #canvas {
   float: left;
@@ -22,6 +24,7 @@ body {
   border-left: 5px solid #4b6ea9;
   padding-left: 5px;
   font-size: 12px;
+  overflow:hidden;
 }
 #ruler {
   float: left;
@@ -43,4 +46,6 @@ body {
   font-size: 10px;
   font-style: normal;
 }
-
+#form {
+  text-align:center;
+}

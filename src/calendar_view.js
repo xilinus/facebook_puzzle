@@ -1,4 +1,4 @@
-App = (function() {
+CalendarView = (function() {
   var MARGIN_LEFT = 10,
       BORDER_LEFT = 5,
       PADDING_LEFT = 5,
@@ -15,6 +15,7 @@ App = (function() {
     style.height = event.height + "px";
 
     element.innerHTML = "Event ID #" + event.id;
+    element.title = element.innerHTML;
     return element;
   }
 
@@ -29,5 +30,3 @@ App = (function() {
 
   return {displayEvents: displayEvents}
 })();
-
-              

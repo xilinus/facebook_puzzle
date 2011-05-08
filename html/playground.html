@@ -1,15 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Facebook Calendar Puzzle</title>
   <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="playground.js"></script>
 </head>
-
 <body>
   <div id="container">
+    <div id="form">
+      <script type="text/javascript">
+        Playground.createForm();
+      </script>
+    </div>
     <div id="ruler">
       <div class="hour">9:00 <em>AM</em></div>
       <div class="half-hour">9:30</div>
@@ -17,7 +21,7 @@
       <div class="half-hour">10:30</div>
       <div class="hour">11:00 <em>AM</em></div>
       <div class="half-hour">11:30</div>
-      <div class="hour">12:00 <em>AM</em></div>
+      <div class="hour">12:00 <em>PM</em></div>
       <div class="half-hour">12:30</div>
       <div class="hour">1:00 <em>PM</em></div>
       <div class="half-hour">1:30</div>
@@ -42,9 +46,8 @@
   </div>
   
   <script type="text/javascript" src="../lib/underscore.js"></script>
-  <script type="text/javascript" src="../lib/jquery.js"></script>
   <script type="text/javascript" src="../src/event.js"></script>
   <script type="text/javascript" src="../src/calendar.js"></script>
-  <script type="text/javascript" src="../src/playground.js"></script>
+  <script type="text/javascript" src="../src/calendar_view.js"></script>
 </body>
 </html>

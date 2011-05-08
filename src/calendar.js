@@ -1,4 +1,4 @@
-Calendar = (function(context) {
+Calendar = (function() {
   var MAX_WIDTH = 600;
   
   /**
@@ -95,7 +95,8 @@ Calendar = (function(context) {
       }
     });
   }
-  
-  /// Add layOutDay in global window context to fit requirements
-  (context || window).layOutDay = layOutDay;
+  return {layOutDay: layOutDay}
 })();
+
+// Add layOutDay in global window context to fit requirements
+window.layOutDay = Calendar.layOutDay;

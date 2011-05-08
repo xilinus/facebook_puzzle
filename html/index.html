@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Facebook Calendar Puzzle</title>
   <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
@@ -44,6 +43,14 @@
   <script type="text/javascript" src="../lib/underscore.js"></script>
   <script type="text/javascript" src="../src/event.js"></script>
   <script type="text/javascript" src="../src/calendar.js"></script>
-  <script type="text/javascript" src="../src/app.js"></script>
+  <script type="text/javascript" src="../src/calendar_view.js"></script>
+  <script type="text/javascript">
+  CalendarView.displayEvents([ {id: 1, start: 30, end: 150},   // an event from 9:30am to 11:30am 
+                               {id: 2, start: 540, end: 600},  // an event from 6:00pm to 7:00pm 
+                               {id: 3, start: 560, end: 620},  // an event from 6:20pm to 7:20pm 
+                               {id: 4, start: 615, end: 675}  // an event from 7:15pm to 8:15pm 
+                             ]);
+
+  </script>
 </body>
 </html>
