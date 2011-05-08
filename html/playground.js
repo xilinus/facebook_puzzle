@@ -2,7 +2,7 @@ Playground = (function() {
   var events = [],
       lastId = 0;
       
-  // Format time from 0-720 to 9:00AM to 9:00PM
+  // Formats time from 0-720 to 9:00AM to 9:00PM
   function formatTime(time) {
     var formattedTime = time + 9*60,
         hour = parseInt(formattedTime / 60),
@@ -21,7 +21,9 @@ Playground = (function() {
     return hour + ":" + minute + amPm;
   }
   
-  // Create add event controls (start, duration, add button)
+  // Creates event controls (start, duration and add button)
+  // !! old-school style, write HTML code in the DOM and use onclick event handler
+  // !! This functional wasn't part of the exercise :)
   function createForm() {
     document.writeln('<select id="time">');
     for (var time = 0; time < 720; time += 15) {
@@ -37,12 +39,12 @@ Playground = (function() {
     document.writeln('<input type="button" value="Add" onclick="Playground.addEvent(); return false"/>')
   }
   
-  // Return selected integer value of a select HTML tag
+  // Returns selected integer value of a select HTML tag
   function selectedIntValue(select) {
     return parseInt(select.options[select.selectedIndex].value);
   }
   
-  // add a new event and display it on the calendar
+  // Adds a new event and display it on the calendar
   function addEvent() {
     var start = selectedIntValue(document.getElementById('time')),
         end = selectedIntValue(document.getElementById('duration'));
